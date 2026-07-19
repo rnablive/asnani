@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;850;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Cairo", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Custom premium scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #020813;
+}
+::-webkit-scrollbar-thumb {
+  background: #0f1c2e;
+  border: 2px solid #020813;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1e2e4a;
+}
+
+/* Custom shimmering glass effects */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Futuristic Medical Scanline laser */
+@keyframes scanline {
+  0% {
+    top: 0%;
+  }
+  50% {
+    top: 100%;
+  }
+  100% {
+    top: 0%;
+  }
+}
+
+.animate-scan-line {
+  animation: scanline 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+/* ==========================================================================
+   EXPERIENCE MODE STYLES
+   ========================================================================== */
+
+/* Enhanced glowing properties for root container in experience mode */
+.experience-mode {
+  transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dynamic blue glow around cards and dialog panels */
+.experience-mode .rounded-3xl,
+.experience-mode .rounded-2xl {
+  box-shadow: 0 0 35px rgba(0, 207, 255, 0.08), inset 0 0 15px rgba(0, 207, 255, 0.02) !important;
+  border-color: rgba(0, 207, 255, 0.15) !important;
+  backdrop-filter: blur(28px) saturate(145%) !important;
+  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.experience-mode .rounded-3xl:hover,
+.experience-mode .rounded-2xl:hover {
+  box-shadow: 0 0 50px rgba(0, 207, 255, 0.18), inset 0 0 20px rgba(0, 207, 255, 0.05) !important;
+  border-color: rgba(0, 207, 255, 0.35) !important;
+}
+
+/* Neon Edge lighting for borders */
+.experience-mode .border-white\/10 {
+  border-color: rgba(0, 207, 255, 0.18) !important;
+}
+
+.experience-mode .border-slate-800 {
+  border-color: rgba(0, 207, 255, 0.22) !important;
+}
+
+/* Rich glowing buttons */
+.experience-mode button:not(#experience-mode-toggle),
+.experience-mode .btn-glow {
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.experience-mode button:not(#experience-mode-toggle):hover {
+  filter: drop-shadow(0 0 12px rgba(0, 207, 255, 0.65)) !important;
+  transform: translateY(-2px) scale(1.03) !important;
+}
+
+/* Strong glass reflections / bloom effect */
+.experience-mode .backdrop-blur-3xl {
+  backdrop-filter: blur(45px) saturate(160%) !important;
+}
+
+.experience-mode .backdrop-blur-2xl {
+  backdrop-filter: blur(35px) saturate(150%) !important;
+}
+
+/* High-tech pulsing scanlines for that diagnostic laboratory vibe */
+.experience-mode::after {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 207, 255, 0.012) 50%);
+  z-index: 9999;
+  background-size: 100% 4px;
+  pointer-events: none;
+  opacity: 0.35;
+  animation: pulse-scanlines 8s linear infinite;
+}
+
+@keyframes pulse-scanlines {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.45; }
+}
+
+/* Custom animated neon glows */
+@keyframes neon-pulse {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(0, 207, 255, 0.4), 0 0 15px rgba(0, 207, 255, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(0, 207, 255, 0.7), 0 0 25px rgba(0, 207, 255, 0.4);
+  }
+}
+
+.experience-mode .text-cyan-400 {
+  animation: neon-pulse 3s ease-in-out infinite;
+}
+

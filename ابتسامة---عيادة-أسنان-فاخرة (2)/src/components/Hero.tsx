@@ -93,7 +93,7 @@ export default function Hero({ onBookClick }: HeroProps) {
             className="mb-6 flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-950/20 px-4 py-1.5 text-xs font-semibold text-cyan-400 backdrop-blur-md"
           >
             <Sparkles className="h-3.5 w-3.5 animate-pulse text-cyan-400" />
-            <span className="font-sans">{t("heroSubtitle")}</span>
+            <span className="font-sans">{t("heroBadge")}</span>
           </motion.div>
 
           {/* Main Huge Headline */}
@@ -104,7 +104,7 @@ export default function Hero({ onBookClick }: HeroProps) {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="block"
             >
-              {t("heroTitleLine1")}
+              {t("heroHeading")}
             </motion.span>
             <motion.span
               initial={{ opacity: 0, y: 25 }}
@@ -112,7 +112,7 @@ export default function Hero({ onBookClick }: HeroProps) {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="block mt-2 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,207,255,0.2)]"
             >
-              {t("heroTitleLine2")}
+              {t("heroHeadingAccent")}
             </motion.span>
           </h1>
 
@@ -123,7 +123,7 @@ export default function Hero({ onBookClick }: HeroProps) {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="mt-6 font-sans text-base md:text-lg leading-relaxed text-slate-300 max-w-xl select-none"
           >
-            {t("heroDescription")}
+            {t("heroDesc")}
           </motion.p>
 
           {/* Call To Actions */}
@@ -139,7 +139,7 @@ export default function Hero({ onBookClick }: HeroProps) {
               onMouseEnter={() => soundSynth.playHover()}
               className="group relative overflow-hidden flex h-14 items-center gap-3 rounded-2xl bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 px-8 text-base font-extrabold text-white shadow-[0_8px_30px_rgba(30,136,255,0.35)] hover:shadow-[0_8px_35px_rgba(0,207,255,0.5)] hover:scale-[1.04] active:scale-95 transition-all duration-300 cursor-pointer"
             >
-              <span>{t("bookConsultation")}</span>
+              <span>{t("heroCtaBook")}</span>
               <ArrowLeft className={`h-5 w-5 transition-transform ${locale === "ar" ? "group-hover:-translate-x-1.5" : "rotate-180 group-hover:translate-x-1.5"}`} />
 
               {/* Ripple Effect elements */}
@@ -161,8 +161,8 @@ export default function Hero({ onBookClick }: HeroProps) {
             <button
               onClick={() => {
                 soundSynth.playClick();
-                // Scroll down to about
-                document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+                // Scroll down to before-after section
+                document.getElementById("before-after")?.scrollIntoView({ behavior: "smooth" });
               }}
               onMouseEnter={() => soundSynth.playHover()}
               className="group relative flex h-14 items-center gap-2.5 rounded-2xl border border-white/10 bg-white/[0.03] px-7 text-base font-bold text-slate-200 backdrop-blur-md transition-all duration-300 hover:border-cyan-500/40 hover:text-white hover:bg-white/[0.06] active:scale-95 cursor-pointer"

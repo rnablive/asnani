@@ -321,7 +321,7 @@ export default function HolographicEarthSection() {
 
   const callClinic = () => {
     soundSynth.playClick();
-    window.open("tel:+212535555555", "_self");
+    window.open("tel:+212649661963", "_self");
   };
 
   return (

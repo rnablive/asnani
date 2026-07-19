@@ -20,9 +20,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppContextProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<string>(() => {
-    return localStorage.getItem("smile_clinic_locale") || "ar";
-  });
+  const [locale, setLocaleState] = useState<string>("ar");
   const [isEmergency, setIsEmergency] = useState<boolean>(false);
   const [isExperienceMode, setIsExperienceMode] = useState<boolean>(() => {
     return localStorage.getItem("smile_clinic_experience_mode") === "true";
@@ -30,11 +28,10 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
 
   // Set html attributes based on current language
   useEffect(() => {
-    const dir = locale === "ar" ? "rtl" : "ltr";
-    document.documentElement.dir = dir;
-    document.documentElement.lang = locale;
-    localStorage.setItem("smile_clinic_locale", locale);
-  }, [locale]);
+    document.documentElement.dir = "rtl";
+    document.documentElement.lang = "ar";
+    localStorage.setItem("smile_clinic_locale", "ar");
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("smile_clinic_experience_mode", String(isExperienceMode));
@@ -46,19 +43,19 @@ export function AppContextProvider({ children }: { children: React.ReactNode }) 
   }, [isExperienceMode]);
 
   const setLocale = (newLocale: string) => {
-    setLocaleState(newLocale);
+    // Keep strictly Arabic
   };
 
   const t = (key: keyof TranslationSet | ExtraTranslationKey): string => {
     // Try translationSet first
-    const translationSet = translations[locale] || translations["ar"];
+    const translationSet = translations["ar"];
     if (key in translationSet) {
-      return (translationSet as any)[key] || (translations["ar"] as any)[key] || String(key);
+      return (translationSet as any)[key] || String(key);
     }
     // Try extraTranslations next
-    const extraSet = extraTranslations[locale] || extraTranslations["ar"];
+    const extraSet = extraTranslations["ar"];
     if (key in extraSet) {
-      return (extraSet as any)[key] || (extraTranslations["ar"] as any)[key] || String(key);
+      return (extraSet as any)[key] || String(key);
     }
     return String(key);
   };

@@ -28,7 +28,7 @@ const ARTICLES: Article[] = [
     titleKey: "blogArt1Title",
     descKey: "blogArt1Desc",
     tagKey: "blogArt1Cat",
-    image: "https://images.unsplash.com/photo-1579684389782-64d84b5e901a?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=80",
     paragraphsAr: [
       "في عيادتنا، لم يعد تصميم الابتسامة عملية اختيار عشوائية، بل علم هندسي دقيق يقوده الذكاء الاصطناعي. نستخدم خوارزميات الذكاء الاصطناعي المتقدمة لتحليل أكثر من 40 إحداثية هندسية في الوجه البشري، بدءًا من المسافة بين العينين، زاوية الشفاه، لون البشرة، وحجم عظام الفك.",
       "عندما يزورنا المريض، نقوم بالتقاط صور رقمية ثلاثية الأبعاد ثلاثية الأبعاد لأسنان الفكين. يقوم المحرك الطبي الذكي بمطابقة هذه البيانات مع آلاف الحالات السابقة الناجحة لتوليد نموذج ثلاثي الأبعاد يُعرف بالـ 'التوأم الرقمي'. هذا النموذج يتيح للمريض رؤية صورته المستقبلية بالابتسامة الجديدة بدقة فائقة تصل إلى 99% قبل برد مليمتر واحد من الأسنان.",
@@ -76,10 +76,84 @@ const ARTICLES: Article[] = [
   }
 ];
 
+function ArticleInlineMedia({ articleId, isRtl }: { articleId: string; isRtl: boolean }) {
+  const [imgFailed, setImgFailed] = useState(false);
+
+  const mediaData: Record<string, {
+    img: string;
+    captionAr: string;
+    captionEn: string;
+    badgeAr: string;
+    badgeEn: string;
+  }> = {
+    "ai-dentistry": {
+      img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80",
+      captionAr: "شاشة التخطيط ثلاثي الأبعاد وجهاز الخراطة الرقمي CAD/CAM لتصميم الابتسامة الماسية في العيادة.",
+      captionEn: "3D smile planning screen and digital CAD/CAM milling interface for designing diamond veneers.",
+      badgeAr: "مختبرنا الرقمي",
+      badgeEn: "Our Digital Lab"
+    },
+    "microscope-roots": {
+      img: "https://images.unsplash.com/photo-1579684389782-64d84b5e901a?auto=format&fit=crop&w=800&q=80",
+      captionAr: "استخدام الميكروسكوب الألماني المتطور لتكبير قنوات عصب الأسنان بدقة تبلغ 25 ضعفاً.",
+      captionEn: "Utilizing advanced German microscope to magnify root canals up to 25x with laser illumination.",
+      badgeAr: "علاج مجهري",
+      badgeEn: "Microscopic Treatment"
+    },
+    "zircon-veneers": {
+      img: "https://images.unsplash.com/photo-1512223792601-592a9809eed4?auto=format&fit=crop&w=800&q=80",
+      captionAr: "عدسات الزيركون فائقة الرقة ومقاومة التصبغات مصممة بالكامل عبر الحاسوب.",
+      captionEn: "Ultra-thin, stain-resistant Zirconia veneers fully engineered and milled via computer.",
+      badgeAr: "عدسات زيركون",
+      badgeEn: "Zirconia Veneers"
+    }
+  };
+
+  const current = mediaData[articleId];
+  if (!current) return null;
+
+  return (
+    <div className="my-6 rounded-2xl border border-white/10 overflow-hidden bg-slate-950/60 shadow-xl">
+      <div className="relative h-60 w-full flex items-center justify-center bg-slate-900 overflow-hidden group">
+        {!imgFailed ? (
+          <img
+            src={current.img}
+            alt={isRtl ? current.captionAr : current.captionEn}
+            onError={() => setImgFailed(true)}
+            className="absolute inset-0 h-full w-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700"
+            referrerPolicy="no-referrer"
+          />
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950 p-4">
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
+            <div className="relative h-28 w-28 rounded-full border border-cyan-500/30 flex items-center justify-center animate-pulse">
+              <div className="absolute inset-0 rounded-full border border-dashed border-cyan-400/20 animate-spin-slow" />
+              <div className="h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_8px_#00cfff]" />
+              <div className="absolute w-full h-[1px] bg-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.8)] top-1/2 left-0 -translate-y-1/2 animate-bounce" />
+            </div>
+            <div className="absolute bottom-4 flex gap-4 font-mono text-[9px] text-cyan-400/80">
+              <span>[ CAD/CAM SIMULATION_ACTIVE ]</span>
+              <span>[ RESOLUTION: 0.01MM ]</span>
+            </div>
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+        <span className={`absolute top-4 ${isRtl ? "right-4" : "left-4"} rounded-full px-3 py-1 text-[10px] font-bold bg-cyan-500/20 border border-cyan-400/40 text-cyan-300`}>
+          {isRtl ? current.badgeAr : current.badgeEn}
+        </span>
+      </div>
+      <div className={`p-4 bg-slate-950 border-t border-white/5 text-xs text-slate-400 leading-relaxed font-sans ${isRtl ? "text-right" : "text-left"}`}>
+        {isRtl ? current.captionAr : current.captionEn}
+      </div>
+    </div>
+  );
+}
+
 export default function BlogSection() {
   const { t, locale, isEmergency } = useApp();
   const [activeArticle, setActiveArticle] = useState<Article | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
 
   const handleOpenArticle = (art: Article) => {
     soundSynth.playHealing();
@@ -156,12 +230,27 @@ export default function BlogSection() {
             >
               {/* Cover image block */}
               <div className="relative mb-5 h-44 w-full rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 flex items-center justify-center">
-                <img
-                  src={art.image}
-                  alt={t(art.titleKey)}
-                  className="absolute inset-0 h-full w-full object-cover opacity-65 group-hover:scale-105 transition-all duration-700 brightness-75"
-                  referrerPolicy="no-referrer"
-                />
+                {!failedImages[art.id] ? (
+                  <img
+                    src={art.image}
+                    alt={t(art.titleKey)}
+                    onError={() => setFailedImages(prev => ({ ...prev, [art.id]: true }))}
+                    className="absolute inset-0 h-full w-full object-cover opacity-65 group-hover:scale-105 transition-all duration-700 brightness-75"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950 p-4 overflow-hidden">
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:10px_10px] pointer-events-none" />
+                    <div className="relative h-16 w-16 rounded-full border border-cyan-500/20 flex items-center justify-center animate-pulse">
+                      <div className="absolute inset-0 rounded-full border border-dashed border-cyan-400/20 animate-spin-slow" />
+                      <div className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#00cfff]" />
+                      <div className="absolute w-full h-[1px] bg-cyan-500/40 top-1/2 left-0 -translate-y-1/2" />
+                    </div>
+                    <div className="absolute bottom-2 font-mono text-[8px] text-cyan-400/60">
+                      [ {art.id === "ai-dentistry" ? "CAD_CAM_SIM" : art.id === "microscope-roots" ? "MICROSCOPE_SIM" : "VENEERS_SIM"} ]
+                    </div>
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/30" />
                 
                 {/* Float tag */}
@@ -249,12 +338,27 @@ export default function BlogSection() {
 
                 {/* Cover Image Header */}
                 <div className="relative h-64 md:h-72 w-full flex-shrink-0">
-                  <img
-                    src={activeArticle.image}
-                    alt={t(activeArticle.titleKey)}
-                    className="absolute inset-0 h-full w-full object-cover brightness-75 animate-pulse"
-                    referrerPolicy="no-referrer"
-                  />
+                  {!failedImages[activeArticle.id] ? (
+                    <img
+                      src={activeArticle.image}
+                      alt={t(activeArticle.titleKey)}
+                      onError={() => setFailedImages(prev => ({ ...prev, [activeArticle.id]: true }))}
+                      className="absolute inset-0 h-full w-full object-cover brightness-75 animate-pulse"
+                      referrerPolicy="no-referrer"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950 p-6 overflow-hidden">
+                      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:14px_14px] pointer-events-none" />
+                      <div className="relative h-24 w-24 rounded-full border border-cyan-500/20 flex items-center justify-center animate-pulse">
+                        <div className="absolute inset-0 rounded-full border border-dashed border-cyan-400/30 animate-spin-slow" />
+                        <div className="h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_8px_#00cfff]" />
+                        <div className="absolute w-full h-[1.5px] bg-cyan-500/40 top-1/2 left-0 -translate-y-1/2 animate-bounce" />
+                      </div>
+                      <div className="absolute bottom-3 font-mono text-[9px] text-cyan-400/80">
+                        [ {activeArticle.id === "ai-dentistry" ? "CAD_CAM SYSTEM ACTIVE" : activeArticle.id === "microscope-roots" ? "MICROSCOPE SYSTEM ACTIVE" : "VENEERS ANALYSIS ACTIVE"} ]
+                      </div>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-black/40" />
                   
                   {/* Category Tag overlay */}
@@ -292,9 +396,14 @@ export default function BlogSection() {
                     isRtl ? "text-right" : "text-left"
                   }`}>
                     {(isRtl ? activeArticle.paragraphsAr : activeArticle.paragraphsEn).map((p, pIdx) => (
-                      <p key={pIdx} className="font-medium">
-                        {p}
-                      </p>
+                      <React.Fragment key={pIdx}>
+                        <p className="font-medium">
+                          {p}
+                        </p>
+                        {pIdx === 1 && (
+                          <ArticleInlineMedia articleId={activeArticle.id} isRtl={isRtl} />
+                        )}
+                      </React.Fragment>
                     ))}
                   </div>
 

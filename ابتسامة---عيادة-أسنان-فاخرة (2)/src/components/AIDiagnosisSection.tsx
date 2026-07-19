@@ -286,7 +286,7 @@ ${body}
 ${footer}`;
 
     const encodedText = encodeURIComponent(messageText);
-    const whatsappUrl = `https://wa.me/212535500000?text=${encodedText}`;
+    const whatsappUrl = `https://wa.me/212649661963?text=${encodedText}`;
     window.open(whatsappUrl, "_blank");
   };
 
@@ -847,7 +847,7 @@ ${footer}`;
               <div className="flex flex-col gap-2.5">
                 {/* Emergency call button to Clinic */}
                 <a
-                  href="tel:+212535500000"
+                  href="tel:+212649661963"
                   onClick={() => soundSynth.playClick()}
                   className="w-full py-3.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold font-sans text-sm shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >

@@ -29,13 +29,14 @@ export default function AIAssistant() {
   ]);
   const [inputText, setInputText] = useState("");
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const [eyePos, setEyePos] = useState({ x: 0, y: 0 });
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll chat to bottom
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, isTyping]);
 
   // Simulate holographic eye tracking (reacts to mouse movement)
   useEffect(() => {
@@ -53,29 +54,49 @@ export default function AIAssistant() {
     setIsOpen(!isOpen);
   };
 
-  const handleSendMessage = (text: string) => {
-    if (!text.trim()) return;
+  const handleSendMessage = async (text: string) => {
+    if (!text.trim() || isTyping) return;
     soundSynth.playClick();
 
-    const newMsgs = [...messages, { id: Date.now(), sender: "user" as const, text }];
-    setMessages(newMsgs);
+    const userMsg = { id: Date.now(), sender: "user" as const, text };
+    setMessages((prev) => [...prev, userMsg]);
     setInputText("");
+    setIsTyping(true);
 
-    // Look up answer
-    setTimeout(() => {
-      let responseText = DARIJA_ANSWERS[text];
-      if (!responseText) {
-        // Simple match
-        const found = Object.keys(DARIJA_ANSWERS).find((k) => text.includes(k) || k.includes(text));
-        responseText = found ? DARIJA_ANSWERS[found] : DARIJA_ANSWERS["default"];
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: text }),
+      });
+
+      if (!response.ok) {
+        throw new Error("API call failed");
       }
+
+      const data = await response.json();
+      const replyText = data.reply || "عذراً، لم أستطع فهم ذلك. يرجى الاتصال بالدكتور مباشرة.";
 
       setMessages((prev) => [
         ...prev,
-        { id: Date.now() + 1, sender: "ai" as const, text: responseText }
+        { id: Date.now() + 1, sender: "ai" as const, text: replyText }
       ]);
       soundSynth.playHealing();
-    }, 1000);
+    } catch (error) {
+      console.error("Error communicating with AI assistant:", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          sender: "ai" as const,
+          text: "المرجو الاتصال بالدكتور مباشرة بالضغط على زر الواتساب أو الاتصال الهاتفي بالعيادة لمساعدتك وتحديد موعد."
+        }
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   const handleVoiceSpeak = (text: string) => {
@@ -212,6 +233,15 @@ export default function AIAssistant() {
                   </div>
                 );
               })}
+              {isTyping && (
+                <div className="flex gap-2 max-w-[85%] self-start text-right flex-row-reverse">
+                  <div className="rounded-2xl p-3 bg-white/5 border border-white/5 text-slate-400 text-xs flex items-center gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: "300ms" }} />
+                  </div>
+                </div>
+              )}
               <div ref={chatEndRef} />
             </div>
 

@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from "react";
 import Lenis from "lenis";
-import { Heart, Globe, MessageSquare } from "lucide-react";
+import { Heart, Globe, MessageSquare, Calendar } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -86,6 +86,19 @@ function AppContent() {
   };
 
   const isRtl = locale === "ar";
+  const [showFloatingBook, setShowFloatingBook] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        setShowFloatingBook(true);
+      } else {
+        setShowFloatingBook(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <motion.div
@@ -305,6 +318,43 @@ function AppContent() {
           <span className="mt-2 sm:mt-0 font-mono">CRAFTED WITH LUXURY HEALTHCARE STANDARDS</span>
         </div>
       </footer>
+
+      {/* Floating Sticky Booking CTA (appears at top-left as a small elegant icon when scrolled down) */}
+      <AnimatePresence>
+        {showFloatingBook && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, x: -30 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            exit={{ opacity: 0, scale: 0.8, x: -30 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className="fixed top-24 left-6 z-50 group"
+          >
+            <button
+              onClick={handleBookClick}
+              className={`flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-slate-950/90 border transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer ${
+                isEmergency
+                  ? "border-red-500/40 shadow-[0_0_15px_rgba(239,68,68,0.4)] hover:border-red-400 text-red-400"
+                  : "border-cyan-500/30 shadow-[0_0_15px_rgba(0,207,255,0.15)] hover:border-cyan-400 text-cyan-400"
+              }`}
+            >
+              <Calendar className="h-5 w-5" />
+              
+              {/* Micro pulsing badge */}
+              <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isEmergency ? "bg-red-400" : "bg-cyan-400"}`}></span>
+                <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${isEmergency ? "bg-red-500" : "bg-cyan-500"}`}></span>
+              </span>
+            </button>
+
+            {/* Custom Tooltip on Hover */}
+            <div className={`absolute top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap bg-slate-950/95 border border-white/10 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-200 shadow-2xl backdrop-blur-md ${
+              isRtl ? "left-14 text-right" : "left-14 text-left"
+            }`}>
+              {t("navBookBtn")}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

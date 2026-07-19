@@ -251,123 +251,26 @@ class SoundSynth {
   }
 
   public startAmbience() {
-    this.initCtx();
-    if (!this.ctx || this.isAmbiencePlaying) return;
-
-    const osc = this.ctx.createOscillator();
-    const osc2 = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    const filter = this.ctx.createBiquadFilter();
-
-    osc.type = "triangle";
-    osc.frequency.setValueAtTime(60, this.ctx.currentTime); // Low hum
-    
-    // Low frequency modulation
-    const lfo = this.ctx.createOscillator();
-    const lfoGain = this.ctx.createGain();
-    lfo.frequency.setValueAtTime(0.2, this.ctx.currentTime);
-    lfoGain.gain.setValueAtTime(2, this.ctx.currentTime);
-    lfo.connect(lfoGain);
-    lfoGain.connect(osc.frequency);
-    lfo.start();
-
-    osc2.type = "sine";
-    osc2.frequency.setValueAtTime(120, this.ctx.currentTime); // Second harmonic
-
-    filter.type = "lowpass";
-    filter.frequency.setValueAtTime(150, this.ctx.currentTime);
-
-    gain.gain.setValueAtTime(0, this.ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.12, this.ctx.currentTime + 1.5); // Smooth fade in
-
-    osc.connect(filter);
-    osc2.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.ctx.destination);
-
-    osc.start();
-    osc2.start();
-
-    this.ambientNode = osc;
-    this.ambientGain = gain;
-    this.ambientFilter = filter;
-    this.isAmbiencePlaying = true;
+    // Silenced background hum/chime to remove unsolicited background noise
+    return;
   }
 
   public stopAmbience() {
-    if (!this.ctx || !this.isAmbiencePlaying) return;
-
-    if (this.ambientGain) {
-      const currentGain = this.ambientGain.gain.value;
-      this.ambientGain.gain.setValueAtTime(currentGain, this.ctx.currentTime);
-      this.ambientGain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 1.0); // Smooth fade out
-      
-      const node = this.ambientNode;
-      setTimeout(() => {
-        try {
-          node?.stop();
-        } catch (e) {}
-      }, 1100);
-    }
-
     this.isAmbiencePlaying = false;
-    this.ambientNode = null;
-    this.ambientGain = null;
-    this.ambientFilter = null;
   }
 
   public toggleAmbience() {
-    if (this.isAmbiencePlaying) {
-      this.stopAmbience();
-      return false;
-    } else {
-      this.startAmbience();
-      return true;
-    }
+    return false;
   }
 
   public getAmbientState() {
-    return this.isAmbiencePlaying;
+    return false;
   }
 }
 
 export const soundSynth = new SoundSynth();
 
 export default function AudioController() {
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const handleToggle = () => {
-    soundSynth.playClick();
-    const state = soundSynth.toggleAmbience();
-    setIsPlaying(state);
-  };
-
-  return (
-    <div className="fixed bottom-6 left-6 z-50 flex items-center gap-3">
-      <button
-        id="audio-toggle-btn"
-        onClick={handleToggle}
-        onMouseEnter={() => soundSynth.playHover()}
-        className={`relative flex h-12 items-center gap-3 rounded-full border px-4 py-2 text-sm font-medium transition-all duration-500 backdrop-blur-md cursor-pointer ${
-          isPlaying
-            ? "border-cyan-500 bg-cyan-950/40 text-cyan-400 shadow-[0_0_15px_rgba(0,207,255,0.3)]"
-            : "border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-700 hover:text-white"
-        }`}
-      >
-        <span className="relative flex h-3 w-3">
-          {isPlaying ? (
-            <>
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75"></span>
-              <span className="relative inline-flex h-3 w-3 rounded-full bg-cyan-500"></span>
-            </>
-          ) : (
-            <span className="relative inline-flex h-3 w-3 rounded-full bg-slate-500"></span>
-          )}
-        </span>
-        <span className="font-sans">
-          {isPlaying ? "إيقاف الموسيقى المحيطية" : "تشغيل المؤثرات الصوتية والمحيطية"}
-        </span>
-      </button>
-    </div>
-  );
+  // Completely silenced background helper (removed auto-start ambience click listeners)
+  return null;
 }

@@ -36,14 +36,23 @@ export default function AboutSection() {
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
-          {/* Column for Aesthetic surgical laboratory diagram mockup */}
+          {/* Column for Aesthetic surgical laboratory diagram mockup with high-quality medical image */}
           <div className="relative flex items-center justify-center h-[380px] rounded-3xl border border-white/5 bg-slate-950/20 backdrop-blur-md overflow-hidden group">
+            
+            {/* Background Medical/Cosmetic Tech Image */}
+            <img
+              src="https://images.unsplash.com/photo-1579684389782-64d84b5e901a?auto=format&fit=crop&w=800&q=80"
+              alt="Cosmetic Dental Technology"
+              className="absolute inset-0 h-full w-full object-cover opacity-25 group-hover:opacity-35 group-hover:scale-105 transition-all duration-1000 brightness-75 select-none"
+              referrerPolicy="no-referrer"
+            />
+
             {/* Ambient inner neon glows */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-56 w-56 rounded-full bg-blue-500/10 blur-[80px]" />
             <div className="absolute top-1/4 right-1/4 h-32 w-32 rounded-full bg-cyan-400/10 blur-[50px] animate-pulse" />
 
             {/* Surgical monitor interface simulation */}
-            <div className="relative z-10 w-full max-w-sm p-6 rounded-2xl border border-slate-800 bg-slate-950/80 shadow-2xl">
+            <div className="relative z-10 w-full max-w-sm p-6 rounded-2xl border border-slate-800/80 bg-slate-950/90 shadow-2xl backdrop-blur-md">
               <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
                 <div className={`flex items-center gap-1.5 font-mono text-[9px] text-cyan-400 ${isRtl ? "flex-row" : "flex-row-reverse"}`}>
                   <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-ping" />
@@ -53,7 +62,7 @@ export default function AboutSection() {
               </div>
 
               {/* Graphical tooth mesh simulation */}
-              <div className="h-28 w-full border border-dashed border-slate-800 rounded-xl flex items-center justify-center p-4 relative overflow-hidden">
+              <div className="h-28 w-full border border-dashed border-slate-800 rounded-xl flex items-center justify-center p-4 relative overflow-hidden bg-slate-950/40">
                 <svg
                   className="h-full w-auto text-cyan-400/70"
                   fill="none"

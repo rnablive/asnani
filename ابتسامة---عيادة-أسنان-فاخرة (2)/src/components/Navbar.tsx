@@ -105,7 +105,7 @@ export default function Navbar({ onBookClick, onNavigate }: NavbarProps) {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="fixed top-6 left-1/2 z-40 w-full max-w-6xl -translate-x-1/2 px-4 pointer-events-none"
+        className="absolute top-6 left-1/2 z-40 w-full max-w-6xl -translate-x-1/2 px-4 pointer-events-none"
       >
         <div
           id="navbar"
@@ -157,59 +157,8 @@ export default function Navbar({ onBookClick, onNavigate }: NavbarProps) {
             ))}
           </nav>
 
-          {/* Right Side Control Panel (Language Select + Booking CTA) */}
+          {/* Right Side Control Panel (Booking CTA) */}
           <div className="hidden lg:flex items-center gap-3">
-            {/* Premium Glassmorphism Language Selector Dropdown */}
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => {
-                  soundSynth.playClick();
-                  setIsLangOpen(!isLangOpen);
-                }}
-                onMouseEnter={() => soundSynth.playHover()}
-                className="flex h-11 items-center gap-2 rounded-full border border-white/10 bg-slate-950/30 px-4 text-sm font-medium text-slate-200 transition-all hover:bg-white/5 cursor-pointer"
-              >
-                <Globe className={`h-4 w-4 transition-colors duration-1000 ${isEmergency ? "text-red-400" : "text-cyan-400"}`} />
-                <span className="font-sans text-xs">{currentLang.name}</span>
-                <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
-              </button>
-
-              <AnimatePresence>
-                {isLangOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                    className={`absolute mt-2 w-48 rounded-2xl border border-white/10 bg-slate-950/90 p-2 shadow-2xl backdrop-blur-2xl z-50 overflow-hidden ${
-                      isRtl ? "right-0 origin-top-right" : "left-0 origin-top-left"
-                    }`}
-                  >
-                    <div className="max-h-72 overflow-y-auto custom-scrollbar flex flex-col gap-0.5">
-                      {LANGUAGES.map((lang) => (
-                        <button
-                          key={lang.code}
-                          onClick={() => handleLangChange(lang.code)}
-                          className={`flex w-full items-center justify-between rounded-xl px-3.5 py-2 text-right text-xs transition-all hover:bg-white/5 cursor-pointer ${
-                            locale === lang.code
-                              ? isEmergency
-                                ? "text-red-400 font-bold bg-red-950/20"
-                                : "text-cyan-400 font-bold bg-cyan-950/20"
-                              : "text-slate-300 hover:text-white"
-                          }`}
-                        >
-                          <span className="font-sans">{lang.name}</span>
-                          {locale === lang.code && (
-                            <Check className={`h-3.5 w-3.5 ${isEmergency ? "text-red-400" : "text-cyan-400"}`} />
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
             {/* Book Appointment CTA Button */}
             <button
               onClick={handleButtonClick}
@@ -236,21 +185,8 @@ export default function Navbar({ onBookClick, onNavigate }: NavbarProps) {
             </button>
           </div>
 
-          {/* Mobile Menu & Language Toggle Button */}
+          {/* Mobile Menu Button */}
           <div className="flex items-center gap-2 lg:hidden">
-            {/* Miniature Language Swapper for Mobile */}
-            <button
-              onClick={() => {
-                soundSynth.playClick();
-                const nextIdx = (LANGUAGES.findIndex((l) => l.code === locale) + 1) % LANGUAGES.length;
-                setLocale(LANGUAGES[nextIdx].code);
-              }}
-              className="flex h-10 px-3 items-center gap-1.5 rounded-full border border-slate-800 bg-slate-900/40 text-slate-300 hover:text-white cursor-pointer"
-            >
-              <Globe className="h-4 w-4 text-cyan-400" />
-              <span className="text-[11px] font-bold uppercase font-mono">{locale}</span>
-            </button>
-
             <button
               onClick={() => {
                 soundSynth.playClick();
@@ -274,30 +210,6 @@ export default function Navbar({ onBookClick, onNavigate }: NavbarProps) {
             transition={{ duration: 0.3 }}
             className="fixed inset-x-4 top-28 z-40 rounded-3xl border border-white/10 bg-slate-950/95 p-6 shadow-3xl backdrop-blur-3xl lg:hidden flex flex-col gap-4"
           >
-            {/* Quick-Switch Languages in Drawer */}
-            <div className="flex flex-col gap-1 border-b border-white/10 pb-4 mb-2">
-              <span className="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-1.5 flex items-center gap-1.5">
-                <Globe className="h-3 w-3" /> {isRtl ? "اختر اللغة" : "Select Language"}
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {LANGUAGES.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => handleLangChange(lang.code)}
-                    className={`rounded-full px-3 py-1.5 text-xs font-medium transition-all cursor-pointer ${
-                      locale === lang.code
-                        ? isEmergency
-                          ? "bg-red-500 text-white shadow-lg"
-                          : "bg-cyan-500 text-white shadow-lg"
-                        : "bg-white/5 text-slate-300 hover:bg-white/10"
-                    }`}
-                  >
-                    {lang.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             <div className="flex flex-col gap-1">
               {links.map((link) => (
                 <button

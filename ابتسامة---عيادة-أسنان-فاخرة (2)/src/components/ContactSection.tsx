@@ -105,9 +105,9 @@ export default function ContactSection() {
                   <Phone className="h-5 w-5" />
                 </div>
                 <div className="flex flex-col items-start leading-none mt-1">
-                  <span className="font-sans text-xs text-slate-400">اتصال مباشر (مجاني)</span>
+                  <span className="font-sans text-xs text-slate-400">اتصال مباشر (الهاتف والواتساب)</span>
                   <span className="font-mono text-base font-bold text-white mt-1.5" dir="ltr">
-                    +966 800 124 5555
+                    +212 649 66 19 63
                   </span>
                 </div>
               </div>
@@ -119,7 +119,7 @@ export default function ContactSection() {
                 <div className="flex flex-col items-start leading-none mt-1">
                   <span className="font-sans text-xs text-slate-400">البريد الإلكتروني للعيادة</span>
                   <span className="font-mono text-base font-bold text-white mt-1.5">
-                    care@ebtisama.com
+                    ahmedhendiya@gmail.com
                   </span>
                 </div>
               </div>
@@ -131,7 +131,7 @@ export default function ContactSection() {
                 <div className="flex flex-col items-start leading-none mt-1">
                   <span className="font-sans text-xs text-slate-400">عنوان المقر الرئيسي</span>
                   <span className="font-sans text-xs text-white font-semibold mt-1.5 leading-relaxed">
-                    طريق الملك فهد، حي الملقا، الرياض، المملكة العربية السعودية
+                    شارع الجيش الملكي، حمرية، مكناس، المغرب
                   </span>
                 </div>
               </div>
@@ -261,7 +261,7 @@ export default function ContactSection() {
                       required
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
-                      placeholder="05xxxxxxxx"
+                      placeholder="06xxxxxxxx"
                       className="w-full rounded-xl border border-slate-800 bg-slate-900/30 px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-cyan-500/50 focus:outline-none focus:ring-1 focus:ring-cyan-500/50 transition-all text-left font-mono"
                       dir="ltr"
                     />

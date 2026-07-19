@@ -132,7 +132,7 @@ export type ExtraTranslationKey = keyof ExtraTranslationSet;
 export const extraTranslations: Record<string, ExtraTranslationSet> = {
   ar: {
     heroHealthTips: "إرشادات صحية",
-    heroVirtualTour: "جولة افتراضية",
+    heroVirtualTour: "شاهد النتائج قبل وبعد",
     close: "إغلاق",
     yourDentalHealth: "صحة أسنانك",
     dailyTipsSubtitle: "نصائح وإرشادات وقائية يومية",

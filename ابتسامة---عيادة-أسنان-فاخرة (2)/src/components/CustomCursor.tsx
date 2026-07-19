@@ -11,10 +11,20 @@ export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isHidden, setIsHidden] = useState(true);
+  const [isMobile, setIsMobile] = useState(true);
   const { isExperienceMode } = useApp();
  
   useEffect(() => {
     if (typeof window === "undefined") return;
+
+    const checkDevice = () => {
+      const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+      const isSmall = window.innerWidth < 1024;
+      setIsMobile(isCoarse || isSmall);
+    };
+
+    checkDevice();
+    window.addEventListener("resize", checkDevice);
 
     let mouseX = 0;
     let mouseY = 0;
@@ -72,14 +82,15 @@ export default function CustomCursor() {
     const animationFrameId = requestAnimationFrame(updateFollower);
 
     return () => {
+      window.removeEventListener("resize", checkDevice);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseleave", onMouseLeaveWindow);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
-
-  if (isHidden) return null;
+ 
+  if (isMobile || isHidden) return null;
 
   return (
     <>
